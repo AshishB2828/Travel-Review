@@ -12,5 +12,6 @@ mongoose.connect(process.env.CONNECTION_URL,{useNewUrlParser: true, useUnifiedTo
 .catch(Err=>console.log(Err));
 
 app.use('/api/pin', require('./routes/pinRoutes'))
+app.use('/api/user', require('./routes/userRoutes'))
 
 app.listen(PORT, ()=> console.log(`running on ${PORT}`));
