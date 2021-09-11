@@ -11,7 +11,7 @@ mongoose.connect(process.env.CONNECTION_URL,{useNewUrlParser: true, useUnifiedTo
 .then(()=>console.log("connected to mangoDB"))
 .catch(Err=>console.log(Err));
 
-app.use('/api/pin', require('./routes/pinRoutes'))
-app.use('/api/user', require('./routes/userRoutes'))
+app.use('/api/pins', require('./routes/pinRoutes'))
+app.use('/api/users', require('./routes/userRoutes'))
 
 app.listen(PORT, ()=> console.log(`running on ${PORT}`));
