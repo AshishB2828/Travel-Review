@@ -65,6 +65,7 @@ const App = () => {
           lat: newPlace.lat,
           long: newPlace.long,
         };
+        console.log(newPin);
         try {
             const {data} = await axios.post("/pins", newPin);
             setPins([...pins, data]);
