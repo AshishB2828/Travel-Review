@@ -15,7 +15,7 @@ export const putAPI = async(url,data, token)=>{
     const response = await axios.put(`/${url}`,data, {headers:{Authorization: `Bearer ${token}`}});
     return response
 }
-export const deleteAPI = async(url,data, token)=>{
+export const deleteAPI = async(url, token)=>{
     const response = await axios.delete(`/${url}`, {headers:{Authorization: `Bearer ${token}`}});
     return response
 }
