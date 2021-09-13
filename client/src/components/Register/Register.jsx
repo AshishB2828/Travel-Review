@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import './Register.css'
 import { userRegistration } from '../../redux/action/authActions';
+import { Link } from 'react-router-dom';
 const Register = () => {
 
     const dispatch = useDispatch()
@@ -42,6 +43,7 @@ const Register = () => {
         <button className="registerBtn" type="submit">
           Register
         </button>
+        <Link to="/login" style={{"textDecoration":"none"}}>Login</Link>
       </form>
     </div>
   );

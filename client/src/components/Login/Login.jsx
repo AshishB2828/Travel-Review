@@ -1,9 +1,10 @@
-import { Cancel, Room } from "@material-ui/icons";
+import {  Room } from "@material-ui/icons";
 import { useDispatch, useSelector } from 'react-redux';
 import {  useEffect, useState } from "react";
 import "./Login.css";
 import { userLogin } from "../../redux/action/authActions";
 import { useHistory } from "react-router";
+import {Link} from "react-router-dom"
 
 
 const Login = () => {
@@ -31,11 +32,11 @@ const Login = () => {
     <div className="loginContainer">
       <div className="logo">
         <Room className="logoIcon" />
-        <span>Travel Adviser</span>
+        <span>Travel Review</span>
 
       </div>
       <form onSubmit={handleSubmit}>
-        {error && message && <small>{message}</small>}
+        {error && message && <small >{message}</small>}
       <input 
           autoFocus placeholder="username" 
           onChange={(e)=>setFormData({...formData, username:e.target.value})} />
@@ -49,6 +50,7 @@ const Login = () => {
         <button className="loginBtn" type="submit">
           Login
         </button>
+        <Link style={{"textDecoration":"none"}} to="/register">register</Link>
       </form>
     </div>
   );

@@ -28,16 +28,16 @@ const NavBar = () => {
                 <div className="navbar-nav">
                         {
                         auth?.username && 
-                        <li className="nav-item nav-link cursor btn">{auth?.username}</li>
+                        <li className="nav-item nav-link cursor ">{auth?.username}</li>
                         }
                         {
                          auth?.username ?
-                        <li className="nav-item nav-link btn"
+                        <li className="nav-item nav-link "
                         onClick={handleLogOut}
                         >Logout</li>
-                        :<Link to="/login" className="nav-item nav-link btn">Login</Link>
+                        :<Link to="/login" className="nav-item nav-link ">Login</Link>
                          }
-
+                        <a href="https://github.com/AshishB2828/Travel-Review" target="_blank" className="nav-item nav-link ">git</a>
                 </div>
             </div>
         </div>
