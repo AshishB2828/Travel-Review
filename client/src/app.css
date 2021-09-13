@@ -1,12 +1,19 @@
 .card-c {
   width: 300px;
-  height: 300px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  z-index: 100;
-}
+  border-radius: 5px;
+  padding: 10px;
+  
 
+}
+.popup{
+  z-index: 100;
+  box-shadow: 23px 15px 22px -6px rgba(0,0,0,0.5);
+  
+}
 label {
   width: max-content;
   color: tomato;
@@ -19,9 +26,7 @@ label {
   font-size: 14px;
 }
 
-.star {
-  color: gold;
-}
+
 
 .username {
   font-size: 14px;
@@ -30,7 +35,9 @@ label {
 .date {
   font-size: 12px;
 }
-
+.btn{
+  margin-top: 1px;
+}
 form {
   width: 250px;
   height: 250px;

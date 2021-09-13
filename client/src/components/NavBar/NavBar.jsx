@@ -20,7 +20,7 @@ const NavBar = () => {
         <div className="container-xl">
             <span className="navbar-brand">
                 <span className="fw-bold text-secondary">
-                    Travel Assistant
+                    Travel Review
                 </span>
             </span>
 

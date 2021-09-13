@@ -1,14 +1,17 @@
 const Pin = require("../models/Pin");
+const user = require("../models/User");
 
 const pinControllers ={
 
     createNewPin: async(req, res)=>{
-            const {username, title, desc, lat,long} = req.body
+            const {username, title, lat,long} = req.body
 
             if(!username) return res.status(400).send({msg:"Please provise a valid username"})
             if(!title) return res.status(400).send({msg:"Please provide a title"})
             if(!lat || !long) return res.status(400).send({msg:"Please provide valid lat and long"})
-        try {
+            if(username!==req.user.username) return res.status(403).send({msg:"your not allowed to do this operation"})
+
+            try {
             
             const newPin = new Pin(req.body)
             await newPin.save()
@@ -32,14 +35,16 @@ const pinControllers ={
 
         const {username, title, desc, lat,long, } = req.body
         const{id} = req.params
-
+        
         if(!username) return res.status(400).send({msg:"Please provise a valid username"})
         if(!title) return res.status(400).send({msg:"Please provide a title"})
         if(!lat || !long) return res.status(400).send({msg:"Please provide valid lat and long"})
-
+        
         try {
             const pin = await Pin.findById(id)
-           if(!pin) return res.status(400).send({msg:"no pin found"})
+            if(!pin) return res.status(400).send({msg:"no pin found"})
+
+            if(pin.username!==req.user.username) return res.status(403).send({msg:"your not allowed to do this operation"})
            const updatedPin = await Pin.findByIdAndUpdate(id, req.body, {new:true})
             return res.status(200).send({msg:"updated", updatedPin})
         } catch (error) {
@@ -54,6 +59,8 @@ const pinControllers ={
         try {
             const pin = await Pin.findById(id)
             if(!pin) return res.status(400).send({msg:"no pin found"})
+            if(pin.username!==req.user.username) return res.status(403).send({msg:"your not allowed to do this operation"})
+
             const deletedPin = await Pin.findByIdAndDelete(id)
             return res.status(200).send({msg:"updated", deletedPin})
 

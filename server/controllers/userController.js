@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken")
 
 
 const userController ={
@@ -32,7 +33,8 @@ const userController ={
             if(!isUserExist) return res.status(400).send({msg:"username and password is not valid"})
             const isValid = await bcrypt.compare(password, isUserExist.password)
             if(!isValid) return res.status(400).send({msg:"username and password is not valid"})
-            return res.status(200).send({...isUserExist._doc,password:""})
+            const token = jwt.sign({id:isUserExist._id},"JWTSCECRET", {expiresIn:'1d'})
+            return res.status(200).send({...isUserExist._doc,password:"", token})
         } catch (error) {
             console.log(error.message)
             return res.status(400).send({msg: error.message})

@@ -14,14 +14,14 @@ const FormCard = ({newPlace, setNewPlace}) => {
     const handleSubmit=(e)=>{
         e.preventDefault();
         if(status.update)
-        dispatch(updatePin({formData, pins:map.pins, id:newPlace?._id}))
+        dispatch(updatePin({formData, auth, id:newPlace?._id}))
         else
-        dispatch(addPinToMap({formData, pins:map?.pins, }))
+        dispatch(addPinToMap({formData, pins:map?.pins,auth }))
         setNewPlace(null)
 
     }
     return (
-        <div>
+        <div className="card-c">
              <form onSubmit={handleSubmit}>
                   <label>Title</label>
                   <input
@@ -47,7 +47,7 @@ const FormCard = ({newPlace, setNewPlace}) => {
                     <option value="4">4</option>
                     <option value="5">5</option>
                   </select>
-                  <button type="submit" className="submitButton">
+                  <button type="submit" className="btn-primary btn">
                    {status.update? "Update":"Add Pin"}
                   </button>
                 </form>

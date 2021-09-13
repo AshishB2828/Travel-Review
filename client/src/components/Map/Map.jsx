@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
-import { PictureInPictureSharp, Room, Star,DeleteOutlined } from '@material-ui/icons'
+import { Room } from '@material-ui/icons'
 import {format} from 'timeago.js'
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePins, getAllPins } from '../../redux/action/mapAction';
@@ -45,7 +45,12 @@ const Map = () => {
       }
 
       const deletePin=(pin)=>{
-        dispatch(deletePins({id:pin._id}))
+        dispatch(deletePins({id:pin._id, auth}))
+      }
+      const handleUpdateClose=()=>{
+        dispatch({type: globalConstants.STATUS, payload:{update:false}})
+       setNewPlace(null)
+        
       }
 
     return (
@@ -54,7 +59,7 @@ const Map = () => {
                 {...viewport}
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}
                 onViewportChange={nextViewport => setViewport(nextViewport)}
-              mapStyle="mapbox://styles/safak/cknndpyfq268f17p53nmpwira"
+              mapStyle="mapbox://styles/ashish-b/ckqeqhnjn42bv17nwij4l0dcd"
               onDblClick={handleDblClick}
               transitionDuration="200"
             >
@@ -68,6 +73,7 @@ const Map = () => {
               offsetLeft={-20}
               offsetTop={-10}
             >
+            
             <Room style={{fontSize: viewport.zoom * 7,
                          cursor: 'pointer',
                          color:pin.username === currentUser ? 'tomato': 'blue',
@@ -78,6 +84,7 @@ const Map = () => {
             </Marker>
             {pin._id ===currentPlaceId &&
                 <Popup 
+                className="popup"
                 key={pin._id}
                 latitude={pin.lat}
                 longitude={pin.long}
@@ -115,12 +122,13 @@ const Map = () => {
 
 
           {newPlace&&currentUser && <Popup
+          className="popup"
                 latitude={newPlace.lat}
                 longitude={newPlace.long}
                 closeButton={true}
                 closeOnClick={false}
                 anchor="left"
-                onClose={()=> setNewPlace(null)}
+                onClose={handleUpdateClose}
 
             > <FormCard newPlace={newPlace} setNewPlace={setNewPlace} />
             </Popup>}
