@@ -1,58 +1,48 @@
-import React, { useRef, useState } from 'react'
-import { Cancel, Room } from "@material-ui/icons";
-import axios from "axios";
+import React, {  useState } from 'react'
+import { Room } from "@material-ui/icons";
+import { useDispatch, useSelector } from 'react-redux';
 
 import './Register.css'
-const Register = ({setShowRegister}) => {
-    const [success, setSuccess] = useState(false);
-    const [error, setError] = useState(false);
-    const usernameRef = useRef();
-    const emailRef = useRef();
-    const passwordRef = useRef();
+import { userRegistration } from '../../redux/action/authActions';
+const Register = () => {
+
+    const dispatch = useDispatch()
+
+    const {auth} = useSelector(state => state)
+
+    const [formData, setFormData] = useState({
+      username:"", email:"", password:""
+    })
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newUser = {
-      username: usernameRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    };
-
-    try {
-      await axios.post("/users/register", newUser);
-      setError(false);
-      setSuccess(true);
-    } catch (err) {
-      setError(true);
-    }
+    dispatch(userRegistration({formData}))
   };
   return (
     <div className="registerContainer">
       <div className="logo">
         <Room className="logoIcon" />
-        <span>LamaPin</span>
+        <span>Travel Assistant</span>
       </div>
       <form onSubmit={handleSubmit}>
-        <input autoFocus placeholder="username" ref={usernameRef} />
-        <input type="email" placeholder="email" ref={emailRef} />
+        <input 
+          autoFocus placeholder="username" 
+          onChange={(e)=>setFormData({...formData, username:e.target.value})} />
+        <input 
+          type="email" 
+          placeholder="email" 
+          onChange={(e)=>setFormData({...formData, email:e.target.value})} 
+           />
         <input
           type="password"
           min="6"
           placeholder="password"
-          ref={passwordRef}
+          onChange={(e)=>setFormData({...formData, password:e.target.value})} 
         />
         <button className="registerBtn" type="submit">
           Register
         </button>
-        {success && (
-          <span className="success">Successfull. You can login now!</span>
-        )}
-        {error && <span className="failure">Something went wrong!</span>}
       </form>
-      <Cancel
-        className="registerCancel"
-        onClick={() => setShowRegister(false)}
-      />
     </div>
   );
 }

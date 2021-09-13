@@ -1,50 +1,55 @@
 import { Cancel, Room } from "@material-ui/icons";
-import axios from "axios";
-import { useRef, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import {  useEffect, useState } from "react";
 import "./Login.css";
+import { userLogin } from "../../redux/action/authActions";
+import { useHistory } from "react-router";
 
 
-const Login = ({ setShowLogin, setCurrentUsername,myStorage }) => {
-  const [error, setError] = useState(false);
-  const usernameRef = useRef();
-  const passwordRef = useRef();
+const Login = () => {
+  const dispatch = useDispatch()
+
+  const {alert,auth} = useSelector(state => state)
+  const {error, message} = alert
+  const history = useHistory()
+  const [formData, setFormData] = useState({
+    username:"",password:""
+  })
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = {
-      username: usernameRef.current.value,
-      password: passwordRef.current.value,
-    };
-    try {
-      const res = await axios.post("/users/login", user);
-      setCurrentUsername(res.data.username);
-      myStorage.setItem('user', res.data.username);
-      setShowLogin(false)
-    } catch (err) {
-      setError(true);
-    }
+    dispatch(userLogin({formData}))
   };
+
+  useEffect(()=>{
+    if(auth?._id)
+    history.push('/')
+  },[auth?._id])
+
 
   return (
     <div className="loginContainer">
       <div className="logo">
         <Room className="logoIcon" />
-        <span>LamaPin</span>
+        <span>Travel Adviser</span>
+
       </div>
       <form onSubmit={handleSubmit}>
-        <input autoFocus placeholder="username" ref={usernameRef} />
+        {error && message && <small>{message}</small>}
+      <input 
+          autoFocus placeholder="username" 
+          onChange={(e)=>setFormData({...formData, username:e.target.value})} />
+      
         <input
           type="password"
           min="6"
           placeholder="password"
-          ref={passwordRef}
+          onChange={(e)=>setFormData({...formData, password:e.target.value})} 
         />
         <button className="loginBtn" type="submit">
           Login
         </button>
-        {error && <span className="failure">Something went wrong!</span>}
       </form>
-      <Cancel className="loginCancel" onClick={() => setShowLogin(false)} />
     </div>
   );
 }
